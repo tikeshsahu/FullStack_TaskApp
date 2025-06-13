@@ -1,57 +1,47 @@
-import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class StorageService extends GetxService {
-  static const String _themeKey = 'isDarkMode';
-  static const String _userKey = 'currentUser';
-  static const String _tasksKey = 'cachedTasks';
+class StorageService {
+  StorageService._();
+  static final instance = StorageService._();
 
-  late final GetStorage _storage;
+  final _storage = GetStorage();
 
-  @override
-  Future<void> onInit() async {
-    super.onInit();
-    _storage = GetStorage();
+  // Generic methods
+  void save(String key, dynamic value) {
+    _storage.write(key, value);
   }
 
-  // Theme Management
-  bool getDarkMode() {
-    return _storage.read<bool>(_themeKey) ?? false;
+  T? fetch<T>(String key) {
+    return _storage.read<T>(key);
   }
 
-  Future<void> setDarkMode(bool isDarkMode) async {
-    await _storage.write(_themeKey, isDarkMode);
+  void deleteKey(String key) {
+    _storage.remove(key);
   }
 
-  // User Management
+  void clearAll() {
+    _storage.erase();
+  }
+
+  // Theme specific methods
+  bool isDarkMode() {
+    return fetch<bool>('isDarkMode') ?? false;
+  }
+
+  void setDarkMode(bool value) {
+    save('isDarkMode', value);
+  }
+
+  // User specific methods
   Map<String, dynamic>? getCurrentUser() {
-    return _storage.read<Map<String, dynamic>>(_userKey);
+    return fetch<Map<String, dynamic>>('currentUser');
   }
 
-  Future<void> setCurrentUser(Map<String, dynamic> user) async {
-    await _storage.write(_userKey, user);
+  void setCurrentUser(Map<String, dynamic> user) {
+    save('currentUser', user);
   }
 
-  Future<void> removeCurrentUser() async {
-    await _storage.remove(_userKey);
-  }
-
-  // Task Caching (for offline support)
-  List<Map<String, dynamic>> getCachedTasks() {
-    final tasks = _storage.read<List>(_tasksKey);
-    return tasks?.cast<Map<String, dynamic>>() ?? [];
-  }
-
-  Future<void> setCachedTasks(List<Map<String, dynamic>> tasks) async {
-    await _storage.write(_tasksKey, tasks);
-  }
-
-  Future<void> clearCachedTasks() async {
-    await _storage.remove(_tasksKey);
-  }
-
-  // Clear all storage
-  Future<void> clearAll() async {
-    await _storage.erase();
+  void removeCurrentUser() {
+    deleteKey('currentUser');
   }
 }

@@ -1,26 +1,22 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 
-class NetworkService extends GetxService {
+class NetworkController extends GetxController {
   final Connectivity _connectivity = Connectivity();
   final RxBool _isConnected = true.obs;
 
   bool get isConnected => _isConnected.value;
 
   @override
-  Future<void> onInit() async {
+  void onInit() {
     super.onInit();
-    await _initConnectivity();
+    _checkInitialConnection();
     _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
 
-  Future<void> _initConnectivity() async {
-    try {
-      final result = await _connectivity.checkConnectivity();
-      _updateConnectionStatus(result);
-    } catch (e) {
-      _isConnected.value = false;
-    }
+  Future<void> _checkInitialConnection() async {
+    final result = await _connectivity.checkConnectivity();
+    _updateConnectionStatus(result);
   }
 
   void _updateConnectionStatus(List<ConnectivityResult> results) {
