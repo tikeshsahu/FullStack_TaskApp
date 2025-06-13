@@ -22,8 +22,8 @@ class _SplashPageState extends State<SplashPage> {
     // TODO: Add initialization logic in future phases
     await Future.delayed(const Duration(seconds: 2));
 
-    // Navigate to home page for Phase 1
-    Get.offAllNamed('/home');
+    // Navigate to login page to start auth flow
+    Get.offAllNamed('/login');
   }
 
   @override
@@ -74,6 +74,14 @@ class _SplashPageState extends State<SplashPage> {
             // Loading indicator
             const CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            ),
+
+            const SizedBox(height: 16),
+
+            // Demo notice
+            const Text(
+              'Demo Mode - Static UI',
+              style: TextStyle(fontSize: 12, color: Colors.white60),
             ),
           ],
         ),
