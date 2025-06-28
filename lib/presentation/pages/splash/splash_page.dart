@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:task_manager_fullstack/app/routes/app_pages.dart';
 
 import '../../../app/themes/app_theme.dart';
 
@@ -23,7 +24,7 @@ class _SplashPageState extends State<SplashPage> {
     await Future.delayed(const Duration(seconds: 2));
 
     // Navigate to login page to start auth flow
-    Get.offAllNamed('/login');
+    Get.offAllNamed(Routes.auth);
   }
 
   @override

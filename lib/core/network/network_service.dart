@@ -23,8 +23,7 @@ class NetworkController extends GetxController {
     _isConnected.value = results.any(
       (result) =>
           result == ConnectivityResult.mobile ||
-          result == ConnectivityResult.wifi ||
-          result == ConnectivityResult.ethernet,
+          result == ConnectivityResult.wifi
     );
   }
 
